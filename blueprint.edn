@@ -1,0 +1,11 @@
+[{:itonami.blueprint/id "cloud-itonami-isco-2514"
+  :itonami.blueprint/name "Community Applications Programming"
+  :itonami.blueprint/isco-08 "2514"
+  :itonami.blueprint/domain :ict/applications-programming
+  :itonami.blueprint/license "AGPL-3.0-or-later"
+  :itonami.blueprint/social-impact [:open-tooling :local-jobs :software-quality]
+  :itonami.blueprint/governor :applications-programming-governor
+  :itonami.blueprint/robotics true
+  :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger]
+  :itonami.blueprint/status :public-oss
+  :db/id -1}]
