@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; ISCO 2514, applications programmers. The README calls this pure-cognitive work with no robotics
+;; gate; blueprint.edn nevertheless declares :itonami.blueprint/robotics true.
+;; The physical work declared here is the handling the occupation itself
+;; entails (ASSUMPTION, not stated in the README): swapping devices-under-test into the automated test fixture, and wheeling the test-device trolley between the lab and the build room.
+;; Replace with the README premise once one is written.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-2514"
+ :cases
+ [{:id :dut-into-fixture
+   :kind :manipulator
+   :procedure "arm lifts a device-under-test (handheld terminal / POS unit) from the tray into the automated test fixture"
+   :params {:l1-m 0.35 :l2-m 0.30 :m1-kg 2.0 :m2-kg 1.5
+            :from [0.45 0.00] :to [0.15 0.40] :duration-s 1.2 :steps 500}
+   :sweep {:param :payload-kg :values [0.3 0.8 1.5 2.5 3.5]}
+   :quantity :peak-tau1-nm
+   :limit {:max 20.0 :basis "estimate: continuous shoulder torque of a desktop arm (~3 kg payload class)"}
+   :boundary {:lo 0.05 :hi 20.0}}
+  {:id :device-trolley-run
+   :kind :transport
+   :procedure "AMR wheels the test-device trolley between the device lab and the build room"
+   :params {:mass-kg 30.0 :distance-m 35.0 :v-max-mps 0.9 :a-max-mps2 0.4
+            :brake-decel-mps2 0.6 :drive-force-n 45.0 :crr 0.02
+            :cog-height-m 0.60 :support-half-length-m 0.22}
+   :sweep {:param :payload-kg :values [10.0 30.0 60.0 90.0 120.0]}
+   :quantity :cycle-time-s
+   :limit {:max 50.0 :basis "estimate: a trolley run within 50 s so a device swap does not idle the CI hardware lane"}
+   :boundary {:lo 5.0 :hi 250.0}}]}
